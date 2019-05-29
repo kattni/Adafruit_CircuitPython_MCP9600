@@ -165,12 +165,12 @@ class MCP9600:
     # Alert 4 Limit - 0x13
     alert_limit_4 = UnaryStruct(0x13, "<H")
     # Device ID/Revision - 0x20
-    _device_id = ROBits(7, 0x20, 8, register_width=2)
-    _revision_id = ROBits(7, 0x20, 0, register_width=2)
+    _device_id = ROBits(8, 0x20, 8, register_width=2)
+    _revision_id = ROBits(8, 0x20, 0, register_width=2)
 
     # TODO: Consider using _device_id for address
-    def __init__(self, i2c_bus, address=0x40):
+    def __init__(self, i2c_bus, address=0x67):
         self.i2c_device = i2cdevice.I2CDevice(i2c_bus, address)
         # TODO: update with device ID or revision ID?
-        if self._device_id != 0x40:
+        if self._device_id != 0x67:
             raise RuntimeError("Failed to find MCP9600 - check wiring!")
