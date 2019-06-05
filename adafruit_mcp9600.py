@@ -33,7 +33,7 @@ Implementation Notes
 
 **Hardware:**
 
-* `Adafruit MCP9600 <url>`_
+* `Adafruit MCP9600 >url>`_
 
 **Software and Dependencies:**
 
@@ -149,21 +149,21 @@ class MCP9600:
     alert_4_mode = RWBit(0xb, 1, register_width=1)
     alert_4_enable = RWBit(0xb, 0, register_width=1)
     # Alert 1 Hysteresis - 0xc
-    alert_hysteresis_1 = UnaryStruct(0xc, "<H")
+    alert_hysteresis_1 = UnaryStruct(0xc, ">H")
     # Alert 2 Hysteresis - 0xd
-    alert_hysteresis_2 = UnaryStruct(0xd, "<H")
+    alert_hysteresis_2 = UnaryStruct(0xd, ">H")
     # Alert 3 Hysteresis - 0xe
-    alert_hysteresis_3 = UnaryStruct(0xe, "<H")
+    alert_hysteresis_3 = UnaryStruct(0xe, ">H")
     # Alert 4 Hysteresis - 0xf
-    alert_hysteresis_4 = UnaryStruct(0xf, "<H")
+    alert_hysteresis_4 = UnaryStruct(0xf, ">H")
     # Alert 1 Limit - 0x10
-    alert_limit_1 = UnaryStruct(0x10, "<H")
+    alert_limit_1 = UnaryStruct(0x10, ">H")
     # Alert 2 Limit - 0x11
-    alert_limit_2 = UnaryStruct(0x11, "<H")
+    alert_limit_2 = UnaryStruct(0x11, ">H")
     # Alert 3 Limit - 0x12
-    alert_limit_3 = UnaryStruct(0x12, "<H")
+    alert_limit_3 = UnaryStruct(0x12, ">H")
     # Alert 4 Limit - 0x13
-    alert_limit_4 = UnaryStruct(0x13, "<H")
+    alert_limit_4 = UnaryStruct(0x13, ">H")
     # Device ID/Revision - 0x20
     _device_id = ROBits(8, 0x20, 8, register_width=2, lsb_first=False)
     _revision_id = ROBits(8, 0x20, 0, register_width=2)
