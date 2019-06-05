@@ -83,7 +83,7 @@ class MCP9600:
 
     # Burst Mode Temperature Samples
     BURST_1 = const(0x0)
-    BURST_2 - const(0x1)
+    BURST_2 = const(0x1)
     BURST_4 = const(0x2)
     BURST_8 = const(0x3)
     BURST_16 = const(0x4)
@@ -97,13 +97,13 @@ class MCP9600:
     BURST = const(0x2)
 
     # Hot-Junction Temperature (T sub H) "thermocouple temperature register"- 0x0
-    temperature = ROUnaryStruct(0x0, "<H")
+    _hot_junction_temperature = ROUnaryStruct(0x0, ">H")
     # Junctions Temperature Delta (T sub delta) "THERMOCOUPLE JUNCTIONS DELTA TEMPERATURE REGISTER" - 0x1
-    temperature_delta = ROUnaryStruct(0x1, "<H")
+    _junctions_temperature_delta = ROUnaryStruct(0x1, ">H")
     # Cold-Junction Temperature (T sub C) "COLD-JUNCTION/AMBIENT TEMPERATURE REGISTER" - 0x2
-    temperature_cold = ROUnaryStruct(0x2, "<H")
+    _cold_junction_temperature = ROUnaryStruct(0x2, ">H")
     # Raw data ADC - 0x3
-    raw_adc = ROUnaryStruct(0x3, "<H")
+    raw_adc = ROUnaryStruct(0x3, ">H")
     # STATUS - 0x4
     burst_complete = RWBit(0x4, 7, register_width=1)
     temperature_update = RWBit(0x4, 6, register_width=1)
@@ -165,12 +165,28 @@ class MCP9600:
     # Alert 4 Limit - 0x13
     alert_limit_4 = UnaryStruct(0x13, "<H")
     # Device ID/Revision - 0x20
-    _device_id = ROBits(8, 0x20, 8, register_width=2)
+    _device_id = ROBits(8, 0x20, 8, register_width=2, lsb_first=False)
     _revision_id = ROBits(8, 0x20, 0, register_width=2)
 
     # TODO: Consider using _device_id for address
     def __init__(self, i2c_bus, address=0x67):
         self.i2c_device = i2cdevice.I2CDevice(i2c_bus, address)
         # TODO: update with device ID or revision ID?
-        if self._device_id != 0x67:
+        if self._device_id != 0x40:
             raise RuntimeError("Failed to find MCP9600 - check wiring!")
+
+    @property
+    def temperature(self):
+        return self._hot_junction_temperature * 0.0625
+
+    @property
+    def cold_temperature(self):
+        return self._cold_junction_temperature * 0.0625
+
+    @property
+    def temperature_delta(self):
+        if self.temperature >= 0:
+            return self._junctions_temperature_delta
+        else:
+            return self._junctions_temperature_delta - 4096
+
