@@ -108,10 +108,10 @@ class MCP9600:
     burst_complete = RWBit(0x4, 7, register_width=1)
     temperature_update = RWBit(0x4, 6, register_width=1)
     input_range = ROBit(0x4, 4, register_width=1)
-    alert_4 = ROBit(0x4, 3, register_width=1)
-    alert_3 = ROBit(0x4, 2, register_width=1)
-    alert_2 = ROBit(0x4, 1, register_width=1)
     alert_1 = ROBit(0x4, 0, register_width=1)
+    alert_2 = ROBit(0x4, 1, register_width=1)
+    alert_3 = ROBit(0x4, 2, register_width=1)
+    alert_4 = ROBit(0x4, 3, register_width=1)
     # Thermocouple Sensor Configuration - 0x5
     thermocouple_type = RWBits(3, 0x5, 4, register_width=1)
     filter_coefficient = RWBits(3, 0x5, 0, register_width=1)
@@ -124,9 +124,12 @@ class MCP9600:
     alert_1_int_clear = RWBit(0x8, 7, register_width=1)
     alert_1_temp_monitor = RWBit(0x8, 4, register_width=1)
     alert_1_temp_direction = RWBit(0x8, 3, register_width=1)
+    """Set to ``True`` for rising or heading temperatures. Set to ``False`` for falling or
+    cooling temperatures."""
     alert_1_state = RWBit(0x8, 2, register_width=1)
     alert_1_mode = RWBit(0x8, 1, register_width=1)
     alert_1_enable = RWBit(0x8, 0, register_width=1)
+    """Set to ``True`` to enable alert output."""
     # Alert 2 Configuration - 0x9
     alert_2_int_clear = RWBit(0x9, 7, register_width=1)
     alert_2_temp_monitor = RWBit(0x9, 4, register_width=1)
